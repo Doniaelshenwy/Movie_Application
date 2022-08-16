@@ -8,6 +8,7 @@
 import UIKit
 import SDWebImage
 import CoreData
+import DropDown
 
 
 class MovieListCollectionViewController: UICollectionViewController {
@@ -19,7 +20,12 @@ class MovieListCollectionViewController: UICollectionViewController {
     var appDelegate : AppDelegate!
     
     var manageObjectContext : NSManagedObjectContext!
+    
+    let rightBarDropDown = DropDown()
+
  
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,6 +35,13 @@ class MovieListCollectionViewController: UICollectionViewController {
         appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         manageObjectContext = appDelegate.persistentContainer.viewContext
+        
+             rightBarDropDown.anchorView = navigationController?.navigationBar
+             rightBarDropDown.dataSource = ["Highst Rate", "Popularity"]
+             rightBarDropDown.cellConfiguration = { (index, item) in return "\(item)" }
+             rightBarDropDown.textColor = .white
+             rightBarDropDown.backgroundColor = .black
+            rightBarDropDown.semanticContentAttribute = .forceRightToLeft
         
     }
     
@@ -58,6 +71,21 @@ class MovieListCollectionViewController: UICollectionViewController {
         
     }
 
+    
+//    @IBAction func sortBarBtn(_ sender: UIBarButtonItem) {
+//        dropDown.show()
+//    }
+    
+    @IBAction func showBarButtonDropDown(_ sender: AnyObject) {
+
+         rightBarDropDown.selectionAction = { (index: Int, item: String) in
+           print("Selected item: \(item) at index: \(index)") }
+
+         rightBarDropDown.width = 140
+         rightBarDropDown.bottomOffset = CGPoint(x: 0, y:(rightBarDropDown.anchorView?.plainView.bounds.height)!)
+         rightBarDropDown.show()
+      }
+    
     /*
     // MARK: - Navigation
 

@@ -9,5 +9,6 @@ target 'Movie_APP' do
   pod 'SDWebImage'
   pod "youtube-ios-player-helper"
   pod 'Cosmos'
+  pod 'DropDown'
 
 end

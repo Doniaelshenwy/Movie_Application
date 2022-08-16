@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 struct FavouritMovie{
     
@@ -15,3 +16,7 @@ struct FavouritMovie{
     var name : String
     
 }
+
+
+
+

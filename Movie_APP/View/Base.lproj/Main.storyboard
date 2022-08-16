@@ -117,8 +117,10 @@
                     </collectionView>
                     <tabBarItem key="tabBarItem" title="Item" id="vsk-kE-f0G"/>
                     <navigationItem key="navigationItem" title="Movies List" id="j2g-h2-8ag">
-                        <barButtonItem key="rightBarButtonItem" title="Sort" id="oa4-Ci-HIN">
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <barButtonItem key="rightBarButtonItem" title="Sort" id="aNn-iK-GdZ">
+                            <connections>
+                                <action selector="showBarButtonDropDown:" destination="Dwi-cg-36V" id="PI5-Y8-9Kp"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                 </collectionViewController>

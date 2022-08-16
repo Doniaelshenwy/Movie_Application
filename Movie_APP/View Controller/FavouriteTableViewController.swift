@@ -56,9 +56,10 @@ class FavouriteTableViewController: UITableViewController {
         
         cell.titleMovie.text = favouriteArray[indexPath.row].name
 
-        cell.imageMovie.sd_setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(favouriteArray[indexPath.row].img)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
+        cell.imageMovie.sd_setImage(with: URL(string: "\(favouriteArray[indexPath.row].img)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
 
 
+     
      
 
         return cell
@@ -126,7 +127,7 @@ class FavouriteTableViewController: UITableViewController {
             for item in coreDataArray{
                 
                 let title = item.value(forKey: "movieTitle") as! String
-                let image = item.value(forKeyPath:"movieImage")
+                let image = item.value(forKey:"movieImage")
                 
               print("img is \(image)")
                 
