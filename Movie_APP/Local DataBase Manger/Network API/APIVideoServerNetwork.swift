@@ -19,7 +19,7 @@ class APIVideoServerNetwork{
          
         let url = "https://api.themoviedb.org/3/movie/\(id)/videos?&api_key=3bfd219a287f476c97bfb68c3b117bf3&fbclid=IwAR1CrfbtEsBEQXqcyPPIgmxLJOCOBeb14O6fMphy684mewdPjgsQhMjGgSM"
         
-       print("url= \(url)")
+       //print("url= \(url)")
         if let url = URL(string: url){
 
             let request = AF.request(url,method: .get,encoding: URLEncoding.default)
@@ -31,7 +31,7 @@ class APIVideoServerNetwork{
               
             if let data = responseData.data{
                 
-                print(data)
+              //  print(data)
                 
                let jsonDecoderData = JSONDecoder()
                

@@ -36,7 +36,7 @@ class APIReviewServerNetwork{
               
             if let data = responseData.data{
                 
-                print(data)
+               // print(data)
                 
                let jsonDecoderData = JSONDecoder()
                

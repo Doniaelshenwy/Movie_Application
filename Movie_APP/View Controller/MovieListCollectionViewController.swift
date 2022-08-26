@@ -23,8 +23,15 @@ class MovieListCollectionViewController: UICollectionViewController {
     
     let rightBarDropDown = DropDown()
 
- 
+    var coreDataArray : [NSManagedObject] = []
     
+    var fetchDataArray : [FavouritMovie] = []
+    
+    var arrayName : [String] = []
+    
+    var sortArrayName : [String] = []
+    
+    var flagSort = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,33 +48,42 @@ class MovieListCollectionViewController: UICollectionViewController {
              rightBarDropDown.cellConfiguration = { (index, item) in return "\(item)" }
              rightBarDropDown.textColor = .white
              rightBarDropDown.backgroundColor = .black
-            rightBarDropDown.semanticContentAttribute = .forceRightToLeft
+             rightBarDropDown.semanticContentAttribute = .forceRightToLeft
         
+        
+        
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         APINetworkServer().fetchData() { moviesArray, error in
-        
+
                     if let unwarppedData = moviesArray{
                       //  print(unwarppedData)
-                        
-                        self.moviesArray = unwarppedData
-                        
 
+                        self.moviesArray = unwarppedData
+
+                    //    self.saveMovieData(arraySave: self.moviesArray)
+                        
                         DispatchQueue.main.async {
                             self.collectionView.reloadData()
                         }
-        
+
                         print("data view controller")
                     }
-        
+
                     if let error = error{
                         print(error)
                     }
-        
+
                 }
         
+        
+
+      
+        
+     
         
     }
 
@@ -78,8 +94,34 @@ class MovieListCollectionViewController: UICollectionViewController {
     
     @IBAction func showBarButtonDropDown(_ sender: AnyObject) {
 
+       
          rightBarDropDown.selectionAction = { (index: Int, item: String) in
-           print("Selected item: \(item) at index: \(index)") }
+           print("Selected item: \(item) at index: \(index)")
+             
+             if index == 0 {
+                 self.flagSort = 1
+                 
+                 for i in self.moviesArray{
+                 self.arrayName.append(i.movieTitle)
+                 }
+                // print(self.arrayName)
+                 
+                 self.sortArrayName = self.arrayName.sorted()
+//                 print("sorted?")
+//                 print(self.sortArrayName)
+                 
+                
+                 
+                 self.collectionView.reloadData()
+             }
+             else {
+                 
+                 
+                 
+                 
+             }
+             
+         }
 
          rightBarDropDown.width = 140
          rightBarDropDown.bottomOffset = CGPoint(x: 0, y:(rightBarDropDown.anchorView?.plainView.bounds.height)!)
@@ -113,8 +155,29 @@ class MovieListCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SingleMovieCollectionViewCell
         
         
-        cell.imageMovie.sd_setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(moviesArray[indexPath.row].movieImage)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
-    
+//        cell.imageMovie.sd_setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(moviesArray[indexPath.row].movieImage)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
+//
+        if flagSort == 0 {
+            
+            cell.imageMovie.sd_setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(moviesArray[indexPath.row].movieImage)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
+            
+          //  print("first")
+            
+           
+           
+        }
+        else {
+            if moviesArray[indexPath.row].movieTitle == sortArrayName[indexPath.row]{
+                
+                
+                
+                
+                cell.imageMovie.sd_setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(moviesArray[indexPath.row].movieImage)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
+               // print("yees")
+            }
+            
+        }
+        
         return cell
     }
 
@@ -132,7 +195,7 @@ class MovieListCollectionViewController: UICollectionViewController {
         
        
         
-        print("id=\(id)")
+      //  print("id=\(id)")
         
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController{
             
@@ -209,4 +272,45 @@ extension MovieListCollectionViewController : UICollectionViewDelegateFlowLayout
         return CGSize(width: 200, height: 350)
     }
     
+    
+    
+    
+//        func fetchFavouriteData (){
+//
+//            fetchDataArray.removeAll()
+//            let fetchData = NSFetchRequest<NSManagedObject>(entityName: "MovieEntity")
+//
+//            do{
+//
+//               coreDataArray = try manageObjectContext.fetch(fetchData)
+//
+//                for item in coreDataArray{
+//
+//                    let title = item.value(forKey: "title") as! String
+//                    let overview = item.value(forKey:"overview") as! String
+//                    let rate = item.value(forKey:"rate") as! Double
+//                    let releaseDate = item.value(forKey:"releaseDate") as! String
+//                    let id = item.value(forKey:"id") as! Int
+//
+//
+//
+//
+//                    let objMovie = FavouritMovie(title: title, overview: overview, rate: rate, releaseDate: releaseDate, id: id)
+//
+//                    fetchDataArray.append(objMovie)
+//
+//                }
+//              print(fetchDataArray)
+//
+//                print("Fetch Data!")
+//            }
+//            catch let error as NSError{
+//                print(error.localizedDescription)
+//            }
+//
+//
+//
+//        }
+
+
 }

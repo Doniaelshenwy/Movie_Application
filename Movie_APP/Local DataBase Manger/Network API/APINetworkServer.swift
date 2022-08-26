@@ -29,7 +29,7 @@ class APINetworkServer{
               
             if let data = responseData.data{
                 
-                print(data)
+               // print(data)
                 
                let jsonDecoderData = JSONDecoder()
                

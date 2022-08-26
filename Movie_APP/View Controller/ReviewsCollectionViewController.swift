@@ -121,16 +121,7 @@ extension ReviewsCollectionViewController : UICollectionViewDelegateFlowLayout{
     
     func setUPHorizontal(){
         
-//        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
-//
-//        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10)
-//
-//        let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)), subitem: item, count: 1)
-//
-//        let section = NSCollectionLayoutSection(group: group)
-//
-//        let layout = UICollectionViewCompositionalLayout(section: section)
-        
+      
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1.0))
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(400))
             

@@ -18,21 +18,35 @@ class FavouriteTableViewController: UITableViewController {
     var appDelegate : AppDelegate!
     
     var manageObjectContext : NSManagedObjectContext!
+    
+    var objDetails : DetailsViewController!
+    
+    var userDefaultFavBtn = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.delegate = self
+        tableView.dataSource = self
      
         appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         manageObjectContext = appDelegate.persistentContainer.viewContext
         
+        
+        objDetails = DetailsViewController()
+       
+        userDefaultFavBtn = UserDefaults.standard.bool(forKey: "FavBtn")
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
         
-        fetchFavouriteData()
+       fetchFavouriteData()
         
+       
+
+
         
     }
     
@@ -45,28 +59,27 @@ class FavouriteTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        
+        print("count= \(favouriteArray.count)")
         return favouriteArray.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SingleFavouriteTableViewCell
-        
-        
-        
-        cell.titleMovie.text = favouriteArray[indexPath.row].name
+       
 
-        cell.imageMovie.sd_setImage(with: URL(string: "\(favouriteArray[indexPath.row].img)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
-
-
-     
-     
+        
+        cell.titleMovie.text = favouriteArray[indexPath.row].title
+        print("show")
+        
+        cell.imageMovie.image = UIImage(data: favouriteArray[indexPath.row].image)
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 220
+        return 180
     }
 
     /*
@@ -77,17 +90,32 @@ class FavouriteTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+          //  favouriteArray[indexPath.row].pressFavBtn = false
+            favouriteArray.remove(at: indexPath.row)
+            manageObjectContext.delete(coreDataArray[indexPath.row])
+            
+            objDetails.imageStarFill = UIImage(systemName: "star")
+            
+            UserDefaults.standard.set(true, forKey: "FavBtn")
+            
+            do{
+                try manageObjectContext.save()
+            }
+            catch let error as NSError{
+                print(error.localizedDescription)
+            }
+            
+            
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -116,37 +144,44 @@ class FavouriteTableViewController: UITableViewController {
 
     
     func fetchFavouriteData (){
-        
+
         favouriteArray.removeAll()
-        let fetchData = NSFetchRequest<NSManagedObject>(entityName: "MovieFavourite")
-        
+        let fetchData = NSFetchRequest<NSManagedObject>(entityName: "MovieEntity")
+
         do{
-           
+
            coreDataArray = try manageObjectContext.fetch(fetchData)
+
+           // print("coreDataArray= \(coreDataArray)")
+            
+            
+            //favouriteArray.removeAll()
             
             for item in coreDataArray{
+
+                let title = item.value(forKey: "title") as! String
                 
-                let title = item.value(forKey: "movieTitle") as! String
-                let image = item.value(forKey:"movieImage")
                 
-              print("img is \(image)")
+                let image = item.value(forKey: "image") as! Data
                 
-               
-                let objMovie = FavouritMovie( img: image as! String, name: title)
-                
+             //   let pressFav = item.value(forKey: "pressFavBtn") as! Bool
+
+                let objMovie = FavouritMovie(title: title, image: image)
+
                 favouriteArray.append(objMovie)
-               
+
             }
+           // print("favourite array = \(favouriteArray)")
             tableView.reloadData()
-            
+
             print("Fetch Data!")
         }
         catch let error as NSError{
             print(error.localizedDescription)
         }
-        
-        
-        
+
+
+
     }
-    
+
 }

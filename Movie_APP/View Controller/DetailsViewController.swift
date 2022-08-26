@@ -13,6 +13,10 @@ import CoreData
 
 
 class DetailsViewController: UIViewController {
+    
+    var t = ""
+    
+    
 
     var reviewArray : [ContentResult] = []
     
@@ -36,6 +40,11 @@ class DetailsViewController: UIViewController {
 
     var stringArray : [String] = []
 
+    
+    var imageStarEmpty = UIImage(systemName: "star")
+    
+    var imageStarFill = UIImage(systemName: "star.fill")
+    
     
     @IBOutlet weak var cosmosView: CosmosView!
    
@@ -64,8 +73,9 @@ class DetailsViewController: UIViewController {
         raleaseMovieLabel.text = release
         overViewMovieLabel.text = overView
         
+     
        
-        
+        print("fill = \(imageStarFill)")
         imageMovieImageView.sd_setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(img)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
 
         cosmosView.settings.fillMode = .precise
@@ -74,8 +84,8 @@ class DetailsViewController: UIViewController {
         
         cosmosView.tintColor = UIColor.orange
         
-       print(rateMovie)
-        print(cosmosView.rating)
+//       print(rateMovie)
+//        print(cosmosView.rating)
 
        
 
@@ -111,15 +121,15 @@ class DetailsViewController: UIViewController {
 
                 }
                 
-                print("stringArray = \(self.stringArray)")
+              //  print("stringArray = \(self.stringArray)")
                 
                 self.reviewMovieTextView.text = self.review
                 
-                print("Sd= \(self.review)")
-
-                print("reviw array = \(unwarppedData)")
-                
-                print("data review")
+//                print("Sd= \(self.review)")
+//
+//                print("reviw array = \(unwarppedData)")
+//                
+//                print("data review")
             }
 
             if let error = error{
@@ -159,22 +169,62 @@ class DetailsViewController: UIViewController {
         pressedBtn = !pressedBtn
         
         if pressedBtn == false {
-            sender.setImage(UIImage(systemName: "star"), for: .normal)
+
+            
+            print(pressedBtn)
+            sender.setImage(imageStarEmpty, for: .normal)
             pressedBtn = false
-          
+            
+            UserDefaults.standard.set(pressedBtn, forKey: "FavBtn")
+       
             
         }
         else{
             
-            sender.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            pressedBtn = true
+            print(pressedBtn)
+            sender.setImage(imageStarFill, for: .normal)
+           pressedBtn = true
             
-            saveFavouriteMovie()
-         
+            UserDefaults.standard.set(pressedBtn, forKey: "FavBtn")
+            
+            var imageFav = imageMovieImageView.image?.pngData()
+            
+            let entity = NSEntityDescription.entity(forEntityName: "MovieEntity", in: manageObjectContext)!
+        
+            let movie = NSManagedObject(entity: entity, insertInto: manageObjectContext)
+            print("title= \(titleMovie)")
+            movie.setValue(titleMovie, forKey: "title")
+            movie.setValue(imageFav, forKey: "image")
+            print("pressed fav = \(pressedBtn)")
+           // movie.setValue(pressedBtn, forKey: "pressFavBtn")
+            
+            do{
+                try manageObjectContext.save()
+                print("save title")
+            }
+            catch let error as NSError{
+                print(error.localizedDescription)
+            }
+ 
         }
         
   
     }
+    
+//    func getFavorite(bool: Bool) {
+//           let newFavorite = NSEntityDescription.insertNewObject(forEntityName: "MovieEntity", into: manageObjectContext)
+//           newFavorite.setValue(bool, forKey: "pressFavBtn")
+//
+//        do{
+//            try manageObjectContext.save()
+//            print("save title")
+//        }
+//        catch let error as NSError{
+//            print(error.localizedDescription)
+//        }
+//
+//       }
+    
     @IBAction func detailsReviewBtn(_ sender: Any) {
 
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReviewsTableViewController") as? ReviewsTableViewController{

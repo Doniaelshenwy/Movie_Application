@@ -7,14 +7,24 @@
 
 import Foundation
 import UIKit
-import CoreData
+
 
 struct FavouritMovie{
     
-    var img : String
+    var title : String
     
-    var name : String
+    var image : Data
     
+ //   var pressFavBtn : Bool 
+    
+//    var overview : String
+//    
+//    var rate : Double
+//    
+//    var releaseDate : String
+//    
+//    var id : Int
+//    
 }
 
 
