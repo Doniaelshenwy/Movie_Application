@@ -11,4 +11,6 @@ target 'Movie_APP' do
   pod 'Cosmos'
   pod 'DropDown'
 
+  pod 'ReachabilitySwift'
+
 end

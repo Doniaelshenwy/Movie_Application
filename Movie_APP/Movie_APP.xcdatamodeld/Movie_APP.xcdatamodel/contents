@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AllMovieEntity" representedClassName="AllMovieEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="Transformable"/>
+        <attribute name="overview" optional="YES" attributeType="String"/>
+        <attribute name="rate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="releaseDate" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="MovieEntity" representedClassName="MovieEntity" syncable="YES" codeGenerationType="class">
         <attribute name="image" optional="YES" attributeType="Transformable"/>
         <attribute name="pressFavBtn" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -7,5 +15,6 @@
     </entity>
     <elements>
         <element name="MovieEntity" positionX="-54" positionY="-9" width="128" height="74"/>
+        <element name="AllMovieEntity" positionX="-54" positionY="18" width="128" height="119"/>
     </elements>
 </model>

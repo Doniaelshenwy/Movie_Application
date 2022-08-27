@@ -9,6 +9,9 @@ import UIKit
 import SDWebImage
 import CoreData
 import DropDown
+import Network
+import Reachability
+
 
 
 class MovieListCollectionViewController: UICollectionViewController {
@@ -33,8 +36,16 @@ class MovieListCollectionViewController: UICollectionViewController {
     
     var flagSort = 0
     
+    let reachability = try! Reachability()
+    
+    
+    var movieAllData : [AllMovieData] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+
+ 
 
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -50,41 +61,86 @@ class MovieListCollectionViewController: UICollectionViewController {
              rightBarDropDown.backgroundColor = .black
              rightBarDropDown.semanticContentAttribute = .forceRightToLeft
         
-        
+        reachability.whenReachable = { reachability in
+            if reachability.connection == .wifi {
+                print("Reachable via WiFi")
+                
+                        APINetworkServer().fetchData() { moviesArray, error in
+                
+                                    if let unwarppedData = moviesArray{
+                                      //  print(unwarppedData)
+                
+                                        self.moviesArray = unwarppedData
+                
+                                        self.saveMovieData(arraySave: self.moviesArray)
+                
+                                        
+                                        DispatchQueue.main.async {
+                                            self.collectionView.reloadData()
+                                        }
+                
+                                        print("data view controller")
+                                    }
+                
+                                    if let error = error{
+                                        print(error)
+                                    }
+                
+                                }
+                
+                
+                
+                
+                
+            } else {
+                print("Reachable via Cellular")
+            }
+        }
+        reachability.whenUnreachable = { [self] _ in
+            print("Not reachable")
+            
+            self.fetchAllData()
+        }
+
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
         
        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-        APINetworkServer().fetchData() { moviesArray, error in
-
-                    if let unwarppedData = moviesArray{
-                      //  print(unwarppedData)
-
-                        self.moviesArray = unwarppedData
-
-                    //    self.saveMovieData(arraySave: self.moviesArray)
-                        
-                        DispatchQueue.main.async {
-                            self.collectionView.reloadData()
-                        }
-
-                        print("data view controller")
-                    }
-
-                    if let error = error{
-                        print(error)
-                    }
-
-                }
-        
-        
-
-      
-        
-     
-        
+//        APINetworkServer().fetchData() { moviesArray, error in
+//
+//                    if let unwarppedData = moviesArray{
+//                      //  print(unwarppedData)
+//
+//                        self.moviesArray = unwarppedData
+//
+//                    //    self.saveMovieData(arraySave: self.moviesArray)
+//
+//                        DispatchQueue.main.async {
+//                            self.collectionView.reloadData()
+//                        }
+//
+//                        print("data view controller")
+//                    }
+//
+//                    if let error = error{
+//                        print(error)
+//                    }
+//
+//                }
+//
+//
+//
+//
+//
+//
+//
     }
 
     
@@ -261,7 +317,7 @@ class MovieListCollectionViewController: UICollectionViewController {
         
         collectionView.collectionViewLayout = layout
     }
-    
+ 
 }
 
 
@@ -274,43 +330,7 @@ extension MovieListCollectionViewController : UICollectionViewDelegateFlowLayout
     
     
     
-    
-//        func fetchFavouriteData (){
-//
-//            fetchDataArray.removeAll()
-//            let fetchData = NSFetchRequest<NSManagedObject>(entityName: "MovieEntity")
-//
-//            do{
-//
-//               coreDataArray = try manageObjectContext.fetch(fetchData)
-//
-//                for item in coreDataArray{
-//
-//                    let title = item.value(forKey: "title") as! String
-//                    let overview = item.value(forKey:"overview") as! String
-//                    let rate = item.value(forKey:"rate") as! Double
-//                    let releaseDate = item.value(forKey:"releaseDate") as! String
-//                    let id = item.value(forKey:"id") as! Int
-//
-//
-//
-//
-//                    let objMovie = FavouritMovie(title: title, overview: overview, rate: rate, releaseDate: releaseDate, id: id)
-//
-//                    fetchDataArray.append(objMovie)
-//
-//                }
-//              print(fetchDataArray)
-//
-//                print("Fetch Data!")
-//            }
-//            catch let error as NSError{
-//                print(error.localizedDescription)
-//            }
-//
-//
-//
-//        }
+
 
 
 }
