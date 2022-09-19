@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 
+
 extension MovieListCollectionViewController {
     
     
@@ -27,8 +28,7 @@ extension MovieListCollectionViewController {
             movie.setValue(item.movieID, forKey: "id")
             movie.setValue(item.movieRate, forKeyPath: "rate")
             movie.setValue(item.movieReleaseDate, forKey: "releaseDate")
-          //  movie.setValue(item.movieImage, forKey: "image")
-           
+            movie.setValue("http://image.tmdb.org/t/p/w185/\(item.movieImage)", forKey: "img")
         }
         
        
@@ -63,9 +63,6 @@ extension MovieListCollectionViewController {
 
                 let title = item.value(forKey: "title") as! String
                 
-                
-               // let image = item.value(forKey: "image") as! Data
-                
                 let id = item.value(forKey: "id") as! Int
                 
                 let overview = item.value(forKey: "overview") as! String
@@ -74,9 +71,11 @@ extension MovieListCollectionViewController {
                 
                 let releaseDate = item.value(forKey: "releaseDate") as! String
                 
+                let img = item.value(forKey: "img") as! String
+
              
 
-                let objMovie = AllMovieData(id: id,overview: overview, rate: rate, releaseDate: releaseDate, title: title)
+                let objMovie = AllMovieData(id: id, img: img,overview: overview, rate: rate, releaseDate: releaseDate, title: title)
 
                 movieAllData.append(objMovie)
 

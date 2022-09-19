@@ -12,5 +12,6 @@ target 'Movie_APP' do
   pod 'DropDown'
 
   pod 'ReachabilitySwift'
+  pod 'Kingfisher'
 
 end

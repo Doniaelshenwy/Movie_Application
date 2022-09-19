@@ -11,7 +11,7 @@ struct AllMovieData{
     
     var id : Int
     
-   // var image : Data
+    var img : String
     
     var overview : String
     
