@@ -15,7 +15,7 @@ struct FavouritMovie{
     
     var image : Data
     
- //   var pressFavBtn : Bool 
+  // var pressFavBtn : Bool 
     
 //    var overview : String
 //    

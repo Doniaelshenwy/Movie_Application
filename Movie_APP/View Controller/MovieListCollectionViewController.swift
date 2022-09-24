@@ -14,44 +14,37 @@ import Reachability
 import Kingfisher
 
 class MovieListCollectionViewController: UICollectionViewController {
-
     var moviesArray : [Result] = []
-
     var id = 0
-    
     var appDelegate : AppDelegate!
-    
     var manageObjectContext : NSManagedObjectContext!
-    
     let rightBarDropDown = DropDown()
-
     var coreDataArray : [NSManagedObject] = []
-    
     var fetchDataArray : [FavouritMovie] = []
-    
     var arrayName : [String] = []
-    
     var sortArrayName : [String] = []
-    
     var flagSort = 0
-    
     let reachability = try! Reachability()
-    
-    var url = URL(string: "")
-    var movieAllData : [AllMovieData] = []
-    
+    var movieAllData : [Result] = []
+    var flagImg = 0
+    var pressStar = false
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
         appDelegate = UIApplication.shared.delegate as! AppDelegate
         manageObjectContext = appDelegate.persistentContainer.viewContext
-             rightBarDropDown.anchorView = navigationController?.navigationBar
-             rightBarDropDown.dataSource = ["Highst Rate", "Popularity"]
-             rightBarDropDown.cellConfiguration = { (index, item) in return "\(item)" }
-             rightBarDropDown.textColor = .white
-             rightBarDropDown.backgroundColor = .black
-             rightBarDropDown.semanticContentAttribute = .forceRightToLeft
+        rightBarDropDown.anchorView = navigationController?.navigationBar
+        rightBarDropDown.dataSource = ["Highst Rate", "Popularity"]
+        rightBarDropDown.cellConfiguration = { (index, item) in return "\(item)" }
+        rightBarDropDown.textColor = .white
+        rightBarDropDown.backgroundColor = .black
+        rightBarDropDown.semanticContentAttribute = .forceRightToLeft
+        
+    
+//        fetchAllData()
+//        moviesArray = movieAllData
+
         reachability.whenReachable = { reachability in
             if reachability.connection == .wifi {
                 print("Reachable via WiFi")
@@ -59,14 +52,11 @@ class MovieListCollectionViewController: UICollectionViewController {
                 if let unwarppedData = moviesArray{
                   self.moviesArray = unwarppedData
                   self.saveMovieData(arraySave: self.moviesArray)
-                  for i in self.moviesArray{
-                    url = URL(string: "http://image.tmdb.org/t/p/w185/\(i.movieImage)")
-                    }
                   DispatchQueue.main.async {
                   self.collectionView.reloadData()
-                                        }
+                }
                   print("data view controller")
-                                    }
+                }
                   if let error = error{
                     print(error)
                         }
@@ -78,6 +68,12 @@ class MovieListCollectionViewController: UICollectionViewController {
         reachability.whenUnreachable = { [self] _ in
             print("Not reachable")
             self.fetchAllData()
+            moviesArray = movieAllData
+            print("moviessssss= \(moviesArray)")
+            for i in moviesArray{
+                print("urllll = \(i.movieImage)")
+            }
+            collectionView.reloadData()
         }
 
         do {
@@ -86,6 +82,8 @@ class MovieListCollectionViewController: UICollectionViewController {
             print("Unable to start notifier")
         }
     }
+    
+
 
     @IBAction func showBarButtonDropDown(_ sender: AnyObject) {
 
@@ -126,7 +124,11 @@ class MovieListCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SingleMovieCollectionViewCell
-        cell.imageMovie.sd_setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(moviesArray[indexPath.row].movieImage)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
+//            cell.imageMovie.sd_setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(moviesArray[indexPath.row].movieImage)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
+        
+        
+        cell.imageMovie.kf.indicatorType = .activity
+            cell.imageMovie.kf.setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(moviesArray[indexPath.row].movieImage)"))
         return cell
     }
 
@@ -209,3 +211,5 @@ extension MovieListCollectionViewController : UICollectionViewDelegateFlowLayout
 
 
 }
+
+

@@ -572,6 +572,7 @@
                     <connections>
                         <outlet property="collectionView" destination="N5O-u0-QHR" id="p2A-yS-TUJ"/>
                         <outlet property="cosmosView" destination="wZ8-dc-exN" id="GEj-Q3-7xK"/>
+                        <outlet property="favouriteBtnStar" destination="wXA-wL-aDs" id="C84-sO-rCp"/>
                         <outlet property="imageMovieImageView" destination="25Q-1e-kjG" id="KLa-zg-GMS"/>
                         <outlet property="overViewMovieLabel" destination="fmU-ZC-hpx" id="5Um-yd-ruR"/>
                         <outlet property="raleaseMovieLabel" destination="l78-Gd-kfY" id="ZW8-1n-xpr"/>
@@ -710,7 +711,6 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8UZ-zu-kOb" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="yjN-kq-ShU">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <navigationBarAppearance key="standardAppearance"/>
                         <navigationBarAppearance key="scrollEdgeAppearance">

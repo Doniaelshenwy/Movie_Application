@@ -17,7 +17,7 @@ class DetailsViewController: UIViewController {
     var t = ""
     
     
-
+   
     var reviewArray : [ContentResult] = []
     
     var videoArray : [VideoResult] = []
@@ -46,6 +46,7 @@ class DetailsViewController: UIViewController {
     var imageStarFill = UIImage(systemName: "star.fill")
     
     
+    @IBOutlet weak var favouriteBtnStar: UIButton!
     @IBOutlet weak var cosmosView: CosmosView!
    
     @IBOutlet weak var titleMovieLabel: UILabel!
@@ -73,7 +74,6 @@ class DetailsViewController: UIViewController {
         raleaseMovieLabel.text = release
         overViewMovieLabel.text = overView
         
-     
        
         print("fill = \(imageStarFill)")
         imageMovieImageView.sd_setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(img)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
@@ -99,6 +99,7 @@ class DetailsViewController: UIViewController {
         
         manageObjectContext = appDelegate.persistentContainer.viewContext
        
+    
     }
     
     
@@ -274,10 +275,10 @@ extension DetailsViewController : UICollectionViewDelegate, UICollectionViewData
         section.orthogonalScrollingBehavior = .continuous
         
         let layout = UICollectionViewCompositionalLayout(section: section)
-        
-        
+
         collectionView.collectionViewLayout = layout
     }
-    
-    
-}
+    }
+
+
+

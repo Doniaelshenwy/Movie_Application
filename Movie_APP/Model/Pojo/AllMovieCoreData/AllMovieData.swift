@@ -10,17 +10,9 @@ import Foundation
 struct AllMovieData{
     
     var id : Int
-    
     var img : String
-    
     var overview : String
-    
     var rate : Double
-    
     var releaseDate : String
-    
     var title : String
-    
-    
-    
 }

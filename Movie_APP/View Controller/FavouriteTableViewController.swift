@@ -23,6 +23,7 @@ class FavouriteTableViewController: UITableViewController {
     
     var userDefaultFavBtn = false
 
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,7 +45,7 @@ class FavouriteTableViewController: UITableViewController {
         
        fetchFavouriteData()
         
-       
+    
 
 
         
@@ -164,7 +165,7 @@ class FavouriteTableViewController: UITableViewController {
                 
                 let image = item.value(forKey: "image") as! Data
                 
-             //   let pressFav = item.value(forKey: "pressFavBtn") as! Bool
+             // let pressFav = item.value(forKey: "pressFavBtn") as! Bool
 
                 let objMovie = FavouritMovie(title: title, image: image)
 
