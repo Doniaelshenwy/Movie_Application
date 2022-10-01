@@ -7,9 +7,6 @@
 
 import Foundation
 
-
 struct Reviews : Codable{
-    
     var results : [ContentResult]
-    
 }

@@ -8,7 +8,5 @@
 import Foundation
 
 struct Videos : Codable{
-    
     var results : [VideoResult]
-    
 }

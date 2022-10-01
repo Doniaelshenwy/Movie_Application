@@ -8,8 +8,5 @@
 import UIKit
 
 class SingleMovieCollectionViewCell: UICollectionViewCell {
-    
-    
     @IBOutlet weak var imageMovie: UIImageView!
-    
 }

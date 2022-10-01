@@ -8,11 +8,5 @@
 import Foundation
 
 struct VideoResult : Codable{
-    
     var key : String
-    
-   
-    
-   
-     
 }

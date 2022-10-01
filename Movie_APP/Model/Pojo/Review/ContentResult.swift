@@ -7,14 +7,8 @@
 
 import Foundation
 
-
 struct ContentResult : Codable{
-    
     var content : String
-    
     var author : String
-    
-   
-     
 }
 

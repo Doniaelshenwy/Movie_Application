@@ -7,36 +7,21 @@
 
 import Foundation
 
-
-
-struct Result : Codable{
-    
+struct ResultModel : Codable{
     var movieTitle : String
-    
     var movieImage : String
-    
     var movieOverview : String
-    
     var movieRate : Double
-    
     var movieReleaseDate : String
-    
     var movieID : Int
-    
     
     enum CodingKeys: String, CodingKey {
             case movieTitle = "original_title"
-        
             case movieImage = "poster_path"
-        
             case movieOverview = "overview"
-        
             case movieRate = "vote_average"
-        
             case movieReleaseDate = "release_date"
-        
             case movieID = "id"
         }
-     
 }
 

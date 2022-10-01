@@ -8,17 +8,9 @@
 import UIKit
 
 class SingleFavouriteTableViewCell: UITableViewCell {
-    
-    
     @IBOutlet weak var imageMovie: UIImageView!
-    
     @IBOutlet weak var titleMovie: UILabel!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-       
     }
-
-  
-
 }

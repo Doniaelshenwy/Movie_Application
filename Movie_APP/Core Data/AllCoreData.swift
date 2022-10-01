@@ -10,13 +10,10 @@ import CoreData
 
 
 extension MovieListCollectionViewController {
-    func saveMovieData(arraySave : [Result]){
+    func saveMovieData(arraySave : [ResultModel]){
         let entity = NSEntityDescription.entity(forEntityName: "AllMovieEntity", in: manageObjectContext)!
         let movie = NSManagedObject(entity: entity, insertInto: manageObjectContext)
-      // print("Save all Data?")
-       
         for item in arraySave {
-          //  print("item.movieImage = \(item.movieImage)")
             movie.setValue(item.movieTitle, forKey: "title")
             movie.setValue(item.movieOverview, forKeyPath: "overview")
             movie.setValue(item.movieID, forKey: "id")
@@ -26,15 +23,12 @@ extension MovieListCollectionViewController {
         }
         do{
          try manageObjectContext.save()
-        //    print("save data")
             print("save data = \(arraySave)")
             print("no save data = \(arraySave.count)")
-
         }
         catch let error as NSError{
             print(error.localizedDescription)
         }
-        
     }
     
     func fetchAllData (){
@@ -50,8 +44,9 @@ extension MovieListCollectionViewController {
                 let rate = item.value(forKey: "rate") as! Double
                 let releaseDate = item.value(forKey: "releaseDate") as! String
                 let img = item.value(forKey: "img") as! String
-                let objMovie = Result(movieTitle: title, movieImage: img, movieOverview: overview, movieRate: rate, movieReleaseDate: releaseDate, movieID: id)
+                let objMovie = ResultModel(movieTitle: title, movieImage: img, movieOverview: overview, movieRate: rate, movieReleaseDate: releaseDate, movieID: id)
                 movieAllData.append(objMovie)
+                print("title = \(title)")
             }
             print("aaaaaaa = \(movieAllData)")
             print("Fetch Data!")

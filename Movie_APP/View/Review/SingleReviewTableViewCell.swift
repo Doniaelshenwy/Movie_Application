@@ -8,16 +8,10 @@
 import UIKit
 
 class SingleReviewTableViewCell: UITableViewCell {
-    
-    
-    
     @IBOutlet weak var nameAuthorLabel: UILabel!
-    
     @IBOutlet weak var reviewLabel: UILabel!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-      
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -25,5 +19,4 @@ class SingleReviewTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

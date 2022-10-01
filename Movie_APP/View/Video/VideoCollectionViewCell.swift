@@ -9,7 +9,5 @@ import UIKit
 import youtube_ios_player_helper
 
 class VideoCollectionViewCell: UICollectionViewCell {
-    
-   
     @IBOutlet weak var viewer: YTPlayerView!
 }

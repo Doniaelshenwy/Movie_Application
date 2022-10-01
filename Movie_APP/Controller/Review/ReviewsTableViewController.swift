@@ -8,78 +8,45 @@
 import UIKit
 
 class ReviewsTableViewController: UITableViewController {
-    
     var arrayReview : [ContentResult] = []
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-      
-   
         tableView.dataSource = self
-      
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 150
-     
-        
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
-        
         let id = UserDefaults.standard.integer(forKey: "ID")
         print("idddd=\(id)")
         APIReviewServerNetwork().fetchReviewData(id: id) { arrayReview, error in
-            
             if let unwarppedData = arrayReview{
-              //  print(unwarppedData)
-                
                 self.arrayReview = unwarppedData
-                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-
                 }
-
             if let error = error{
                 print(error)
             }
-            
-            
         }
-      
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return arrayReview.count
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SingleReviewTableViewCell
-        
         cell.nameAuthorLabel.text = arrayReview[indexPath.row].author
         cell.reviewLabel.text = arrayReview[indexPath.row].content
-
-        
-      //  cell.separatorInset = UIEdgeInsets.init(top: 25.0, left: 0.0, bottom: 25.0, right: 0.0)
-         
-
         return cell
     }
-    
-    
-    
-    
 
 //    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //        return UITableView.automaticDimension

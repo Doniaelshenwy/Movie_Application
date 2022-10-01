@@ -8,7 +8,5 @@
 import Foundation
 
 struct Movies : Codable{
-    
-    var results : [Result]
-    
+    var results : [ResultModel]
 }
