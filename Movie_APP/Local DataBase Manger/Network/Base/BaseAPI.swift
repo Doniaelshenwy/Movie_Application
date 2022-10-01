@@ -13,7 +13,7 @@ class BaseAPI<T: TargetType>{
         let method = Alamofire.HTTPMethod(rawValue: target.method.rawValue)
         let header = Alamofire.HTTPHeaders(target.header)
         let parameter = buildParameter(task: target.task)
-        AF.request(target.baseURL + target.path, method: method, parameters: parameter.0, encoding: parameter.1, headers: header).response { dataResponse in
+        AF.request(target.baseURL+target.path, method: method, parameters: parameter.0, encoding: parameter.1, headers: header).response { dataResponse in
             guard let statusCode = dataResponse.response?.statusCode else { return }
             if statusCode <= 299{
                 switch dataResponse.result {

@@ -16,12 +16,8 @@ enum MovieNetworking{
 extension MovieNetworking: TargetType{
     var baseURL: String {
         switch self {
-        case .getMovie:
+        default:
             return "http://api.themoviedb.org/3"
-        case .getReview:
-            return "https://api.themoviedb.org/3"
-        case .getVideo:
-            return "https://api.themoviedb.org/3"
         }
     }
     
@@ -38,33 +34,21 @@ extension MovieNetworking: TargetType{
     
     var task: Task {
         switch self {
-        case .getMovie:
-            return .requestPlain
-        case .getReview:
-            return .requestPlain
-        case .getVideo:
+        default:
             return .requestPlain
         }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .getMovie:
-            return .get
-        case .getReview:
-            return .get
-        case .getVideo:
+        default:
             return .get
         }
     }
     
     var header: [String : String] {
         switch self {
-        case .getMovie:
-            return [:]
-        case .getReview:
-            return [:]
-        case .getVideo:
+        default:
             return [:]
         }
     }

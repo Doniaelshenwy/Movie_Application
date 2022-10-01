@@ -40,13 +40,7 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         reviewMovieTextView.isEditable = false
-        titleMovieLabel.text = titleMovie
-        raleaseMovieLabel.text = release
-        overViewMovieLabel.text = overView
-        imageMovieImageView.sd_setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(img)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
-        cosmosView.settings.fillMode = .precise
-        cosmosView.rating = rateMovie / 2.0
-        cosmosView.tintColor = UIColor.orange
+        setDataOfUI()
         collectionView.delegate = self
         collectionView.dataSource = self
         setUPHorizontal()
@@ -55,30 +49,32 @@ class DetailsViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        APIReviewServerNetwork().fetchReviewData(id: id) { arrayReview, error in
-            if let unwarppedData = arrayReview{
-                self.reviewArray = unwarppedData
-                for item in self.reviewArray{
-                    let d = item.content
-                    self.review = self.review + " " + d
-                }
-                self.reviewMovieTextView.text = self.review
-            }
-            if let error = error{
-                print(error)
-            }
-        }
-        APIVideoServerNetwork().fetchVideoData(id: id) { arrayVideo, error in
-            if let unwarppedData = arrayVideo{
-                self.videoArray = unwarppedData
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-                }
-            if let error = error{
-                print(error)
-            }
-        }
+        fetchVideoFromAPI()
+        fetchReviewFromAPI()
+//        APIReviewServerNetwork().fetchReviewData(id: id) { arrayReview, error in
+//            if let unwarppedData = arrayReview{
+//                self.reviewArray = unwarppedData
+//                for item in self.reviewArray{
+//                    let d = item.content
+//                    self.review = self.review + " " + d
+//                }
+//                self.reviewMovieTextView.text = self.review
+//            }
+//            if let error = error{
+//                print(error)
+//            }
+//        }
+//        APIVideoServerNetwork().fetchVideoData(id: id) { arrayVideo, error in
+//            if let unwarppedData = arrayVideo{
+//                self.videoArray = unwarppedData
+//                DispatchQueue.main.async {
+//                    self.collectionView.reloadData()
+//                }
+//                }
+//            if let error = error{
+//                print(error)
+//            }
+//        }
     }
     
     @IBAction func favouritMovieBtn(_ sender: UIButton) {
@@ -92,26 +88,69 @@ class DetailsViewController: UIViewController {
             sender.setImage(imageStarFill, for: .normal)
             pressedBtn = true
             UserDefaults.standard.set(pressedBtn, forKey: "FavBtn")
-            var imageFav = imageMovieImageView.image?.pngData()
-            let entity = NSEntityDescription.entity(forEntityName: "MovieEntity", in: manageObjectContext)!
-            let movie = NSManagedObject(entity: entity, insertInto: manageObjectContext)
-            print("title= \(titleMovie)")
-            movie.setValue(titleMovie, forKey: "title")
-            movie.setValue(imageFav, forKey: "image")
-            print("pressed fav = \(pressedBtn)")
-            do{
-                try manageObjectContext.save()
-                print("save title")
-            }
-            catch let error as NSError{
-                print(error.localizedDescription)
-            }
+           saveMovieInFavourite()
         }
     }
     
     @IBAction func detailsReviewBtn(_ sender: Any) {
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReviewsTableViewController") as? ReviewsTableViewController{
             self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func fetchReviewFromAPI(){
+        MovieAPI().getReviewData { result in
+            switch result{
+            case .success(let data):
+                self.reviewArray = data!.results
+                for item in self.reviewArray{
+                    let d = item.content
+                    self.review = self.review + " " + d
+                }
+                self.reviewMovieTextView.text = self.review
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func fetchVideoFromAPI(){
+        MovieAPI().getVideoData { result in
+            switch result{
+            case .success(let data):
+                self.videoArray = data!.results
+                self.collectionView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func setDataOfUI(){
+        reviewMovieTextView.isEditable = false
+        titleMovieLabel.text = titleMovie
+        raleaseMovieLabel.text = release
+        overViewMovieLabel.text = overView
+        imageMovieImageView.sd_setImage(with: URL(string: "http://image.tmdb.org/t/p/w185/\(img)"), placeholderImage: UIImage(named: "iphone.radiowaves.left.and.right"))
+        cosmosView.settings.fillMode = .precise
+        cosmosView.rating = rateMovie / 2.0
+        cosmosView.tintColor = UIColor.orange
+    }
+    
+    func saveMovieInFavourite(){
+        var imageFav = imageMovieImageView.image?.pngData()
+        let entity = NSEntityDescription.entity(forEntityName: "MovieEntity", in: manageObjectContext)!
+        let movie = NSManagedObject(entity: entity, insertInto: manageObjectContext)
+        print("title= \(titleMovie)")
+        movie.setValue(titleMovie, forKey: "title")
+        movie.setValue(imageFav, forKey: "image")
+        print("pressed fav = \(pressedBtn)")
+        do{
+            try manageObjectContext.save()
+            print("save title")
+        }
+        catch let error as NSError{
+            print(error.localizedDescription)
         }
     }
 }

@@ -8,8 +8,8 @@
 import Foundation
 
 class MovieAPI: BaseAPI<MovieNetworking>{
-    func getMovieData(complition: @escaping(Result<[ResultModel]?, NSError>)-> Void){
-        fetchDataFromAPIGeneric(target: .getMovie, response: [ResultModel].self) { result in
+    func getMovieData(complition: @escaping(Result<Movies?, NSError>)-> Void){
+        fetchDataFromAPIGeneric(target: .getMovie, response: Movies.self) { result in
             complition(result)
         }
     }
@@ -20,7 +20,7 @@ class MovieAPI: BaseAPI<MovieNetworking>{
         }
     }
     
-    func getReviewData(complition: @escaping (Result<Videos?, NSError>)-> Void){
+    func getVideoData(complition: @escaping (Result<Videos?, NSError>)-> Void){
         fetchDataFromAPIGeneric(target: .getVideo, response: Videos.self) { result in
             complition(result)
         }

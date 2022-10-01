@@ -92,34 +92,34 @@ class MovieListCollectionViewController: UICollectionViewController {
     }
     
     func fetchDataFromApi(){
-        APINetworkServer().fetchData() { [self] moviesArray, error in
-        if let unwarppedData = moviesArray{
-          self.moviesArray = unwarppedData
-        print(self.moviesArray.count)
-          self.saveMovieData(arraySave: self.moviesArray)
-          DispatchQueue.main.async {
-          self.collectionView.reloadData()
-          }
-        }
-          if let error = error{
-              print(error)
-          }
-         }
-        
-//        MovieAPI().getMovieData { result in
-//            switch result{
-//            case .success(let data):
-//                print("data= \(data!)")
-//                self.moviesArray = data!
-//                print(self.moviesArray.count)
-//                self.saveMovieData(arraySave: self.moviesArray)
-//                DispatchQueue.main.async {
-//                self.collectionView.reloadData()
-//                }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
+//        APINetworkServer().fetchData() { [self] moviesArray, error in
+//        if let unwarppedData = moviesArray{
+//          self.moviesArray = unwarppedData
+//        print(self.moviesArray.count)
+//          self.saveMovieData(arraySave: self.moviesArray)
+//          DispatchQueue.main.async {
+//          self.collectionView.reloadData()
+//          }
 //        }
+//          if let error = error{
+//              print(error)
+//          }
+//         }
+        
+        MovieAPI().getMovieData { result in
+            switch result{
+            case .success(let data):
+                print("data= \(data!)")
+                self.moviesArray = data!.results
+                print(self.moviesArray.count)
+                self.saveMovieData(arraySave: self.moviesArray)
+                DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
      }
     // MARK: UICollectionViewDataSource
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
